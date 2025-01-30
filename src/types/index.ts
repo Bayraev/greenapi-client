@@ -17,7 +17,5 @@ export interface Chat {
 }
 
 export interface AuthState {
-  apiInstance: string;
-  apiTokenInstance: string;
   isAuthenticated: boolean;
 }

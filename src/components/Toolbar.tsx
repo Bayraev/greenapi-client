@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LogIn, Plus } from 'lucide-react';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '../store/slices/authSlice';
+import { logout, setCredentials } from '../store/slices/authSlice';
 import { addChat } from '../store/slices/chatsSlice';
 import { ChatType } from '../types';
 
@@ -30,7 +30,7 @@ const Toolbar: React.FC = () => {
         phoneNumber: addForm.number,
         type: addForm.type,
         message: addForm.message,
-      })
+      }),
     );
     setShowAddModal(false);
   };
@@ -38,15 +38,16 @@ const Toolbar: React.FC = () => {
   return (
     <div className="bg-emerald-800 w-16 flex flex-col items-center py-4 space-y-4">
       <button
-        onClick={() => setShowAuthModal(true)}
-        className="p-2 hover:bg-emerald-700 rounded-full"
-      >
+        onClick={() => {
+          dispatch(logout()); // only for logout/login
+          setShowAuthModal(true);
+        }}
+        className="p-2 hover:bg-emerald-700 rounded-full">
         <LogIn className="w-6 h-6 text-white" />
       </button>
       <button
         onClick={() => setShowAddModal(true)}
-        className="p-2 hover:bg-emerald-700 rounded-full"
-      >
+        className="p-2 hover:bg-emerald-700 rounded-full">
         <Plus className="w-6 h-6 text-white" />
       </button>
 
@@ -60,30 +61,24 @@ const Toolbar: React.FC = () => {
               placeholder="API Instance"
               className="w-full mb-3 p-2 border rounded"
               value={authForm.apiInstance}
-              onChange={(e) =>
-                setAuthForm({ ...authForm, apiInstance: e.target.value })
-              }
+              onChange={(e) => setAuthForm({ ...authForm, apiInstance: e.target.value })}
             />
             <input
               type="text"
               placeholder="API Token Instance"
               className="w-full mb-4 p-2 border rounded"
               value={authForm.apiTokenInstance}
-              onChange={(e) =>
-                setAuthForm({ ...authForm, apiTokenInstance: e.target.value })
-              }
+              onChange={(e) => setAuthForm({ ...authForm, apiTokenInstance: e.target.value })}
             />
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => setShowAuthModal(false)}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
-              >
+                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">
                 Cancel
               </button>
               <button
                 onClick={handleAuth}
-                className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700"
-              >
+                className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">
                 Login
               </button>
             </div>
@@ -101,18 +96,14 @@ const Toolbar: React.FC = () => {
               placeholder="Phone Number"
               className="w-full mb-3 p-2 border rounded"
               value={addForm.number}
-              onChange={(e) =>
-                setAddForm({ ...addForm, number: e.target.value })
-              }
+              onChange={(e) => setAddForm({ ...addForm, number: e.target.value })}
             />
             <input
               type="text"
               placeholder="Message"
               className="w-full mb-4 p-2 border rounded"
               value={addForm.message}
-              onChange={(e) =>
-                setAddForm({ ...addForm, message: e.target.value })
-              }
+              onChange={(e) => setAddForm({ ...addForm, message: e.target.value })}
             />
             <div className="mb-4">
               <label className="block mb-2">Chat Type:</label>
@@ -123,9 +114,7 @@ const Toolbar: React.FC = () => {
                       type="radio"
                       value={type}
                       checked={addForm.type === type}
-                      onChange={(e) =>
-                        setAddForm({ ...addForm, type: e.target.value as ChatType })
-                      }
+                      onChange={(e) => setAddForm({ ...addForm, type: e.target.value as ChatType })}
                       className="form-radio text-emerald-600"
                     />
                     <span className="ml-2">{type}</span>
@@ -136,14 +125,12 @@ const Toolbar: React.FC = () => {
             <div className="flex justify-end space-x-2">
               <button
                 onClick={() => setShowAddModal(false)}
-                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded"
-              >
+                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded">
                 Cancel
               </button>
               <button
                 onClick={handleAddChat}
-                className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700"
-              >
+                className="px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700">
                 Add
               </button>
             </div>
