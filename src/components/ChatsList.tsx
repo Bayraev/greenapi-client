@@ -9,6 +9,7 @@ const ChatsList: React.FC = () => {
   const chats = useSelector((state: RootState) => state.chats.chats);
   const selectedChat = useSelector((state: RootState) => state.chats.selectedChat);
 
+  console.log(chats);
   return (
     <div className="w-80 bg-white border-r">
       <div className="p-4 bg-emerald-50">
@@ -21,14 +22,9 @@ const ChatsList: React.FC = () => {
             onClick={() => dispatch(selectChat(chat.phoneNumber))}
             className={`p-4 border-b hover:bg-emerald-50 cursor-pointer ${
               selectedChat === chat.phoneNumber ? 'bg-emerald-100' : ''
-            }`}
-          >
+            }`}>
             <div className="flex items-center space-x-3">
-              <img
-                src={chat.avatar}
-                alt={chat.phoneNumber}
-                className="w-12 h-12 rounded-full"
-              />
+              <img src={chat.avatar} alt={chat.phoneNumber} className="w-12 h-12 rounded-full" />
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <h3 className="font-medium text-gray-900">{chat.phoneNumber}</h3>
